@@ -1,0 +1,7 @@
+bs4
+flask
+urllib
+pandas
+requests
+ddddocr
+colorama
