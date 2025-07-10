@@ -36,7 +36,6 @@ def show_grade():
     name = "未授权用户"
     file_path = f'./static/{time.strftime("%Y-%m-%d", time.localtime())}.json'
     if not os.path.exists(file_path) or os.path.getsize(file_path) == 0:
-        print("未找到用户信息")
         users = {}
     else:
          users = json.load(open(file_path, 'r', encoding='utf-8'))
