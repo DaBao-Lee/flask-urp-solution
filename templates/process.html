@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://img.icons8.com/?size=100&id=70yRC8npwT3d&format=png&color=000000">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <title>成绩表</title>
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> -->
+    <style>
+        body {
+            font-family: "Helvetica Neue", sans-serif;
+            background-color: #f7f7f7;
+            padding: 20px;
+        }
+        h2 {
+            position: relative;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 22px;
+            color: #333;
+            margin-top: 1%;
+        }
+        .table-wrapper {
+            overflow-x: auto;
+            width: 70%;
+            margin: 0 auto;
+            max-width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .table-wrapper{
+                width: 100%;
+            }
+        }
+
+        table {
+            min-width: 300px;
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-radius: 8px;
+            margin: auto;
+        }
+        th, td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #eaeaea;
+            text-align: center;
+            font-size: 14px;
+            word-break: break-word;
+        }
+        th {
+            background-color: #3498db;
+            color: #fff;
+            font-weight: 600;
+        }
+        tr:hover {
+            background-color: #f0f8ff;
+        }
+        .status-good {
+            color: green;
+        }
+        .status-bad {
+            color: red;
+        }
+        button {
+        width: 100%;
+        background: linear-gradient(135deg, #3498db, #6dd5fa);
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-size: 16px;
+        padding: 12px 24px;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+    .load-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+        background: linear-gradient(135deg, #2980b9, #57c5f8);
+    }
+    .load-btn:active {
+        transform: scale(0.98);
+    }
+    .evaluate-btn{
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+        background: linear-gradient(135deg, #2980b9, #57c5f8);
+    }
+    .evaluate-btn{
+        transform: scale(0.98);
+    }
+    </style>
+</head>
+<body>
+    <div class="table-wrapper">
+        <button onclick="showEvalInfo()" class="evaluate-btn">✨ 查看评估信息</button>
+        <div id="evaluate-area"></div>
+        <button onclick="startEval()" class="evaluate-btn start_evaluate" style="display: none;">📈 开始评估</button>
+        <h2 id="status"></h2>
+    </div>
+    
+    <h2>🎓 学生成绩一览 📖</h2>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>📚 课程名</th>
+                    <th>🔎 属性</th>
+                    <th>✨ 学分</th>
+                    <th>📈 成绩</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index in range(count) %}
+                <tr>
+                    <td>{{ result['courseName'][index] }}</td>
+                    <td>{{ result['courseAttr'][index] }}</td>
+                    <td>{{ result['coursePoints'][index] }}</td>
+                    <td>{{ result['courseGrades'][index] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+            <button onclick="loadCredits()" class="load-btn">📘 加载绩点</button>
+                <div id="credits-area"></div>
+    </div>
+    <script src="{{ url_for('static', filename='js/load_credits.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+</body>
+</html>
