@@ -1,6 +1,6 @@
 function loadCredits() {
 
-    const btn = document.getElementsByClassName('load-btn')[0];
+    const btn = document.getElementsByClassName('credits')[0];
     btn.innerHTML = '加载中...';
     fetch('/credits', {
         method: 'get',

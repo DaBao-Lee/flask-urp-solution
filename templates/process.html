@@ -10,7 +10,8 @@
     <style>
         body {
             font-family: "Helvetica Neue", sans-serif;
-            background-color: #f7f7f7;
+            {#background-color: #f7f7f7;#}
+            background: #caf0f8;
             padding: 20px;
         }
         h2 {
@@ -96,9 +97,9 @@
 </head>
 <body>
     <div class="table-wrapper">
-        <button onclick="showEvalInfo()" class="evaluate-btn">✨ 查看评估信息</button>
+        <button onclick="showEvalInfo()" class="evaluate-btn load-btn">✨ 查看评估信息</button>
         <div id="evaluate-area"></div>
-        <button onclick="startEval()" class="evaluate-btn start_evaluate" style="display: none;">📈 开始评估</button>
+        <button onclick="startEval()" class="evaluate-btn start_evaluate load-btn" style="display: none;">📈 开始评估</button>
         <h2 id="status"></h2>
     </div>
     
@@ -124,7 +125,7 @@
                 {% endfor %}
             </tbody>
         </table>
-            <button onclick="loadCredits()" class="load-btn">📘 加载绩点</button>
+            <button onclick="loadCredits()" class="load-btn credits">📘 加载绩点</button>
                 <div id="credits-area"></div>
     </div>
     <script src="{{ url_for('static', filename='js/load_credits.js') }}"></script>
