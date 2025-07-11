@@ -1,6 +1,5 @@
 from online import *
 import json, time, os
-from colorama import Fore
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 
 app = Flask(__name__)
@@ -55,9 +54,7 @@ def show_grade():
             break
         else:
             tmp_flag += 1
-            print(f"验证码输入错误,正在重新识别, 还剩{10 - tmp_flag}次机会...")
             if tmp_flag == 10:
-                print('请检查账号密码是否正确？网页是否维护中...')
                 name = "密码错误"
                 users[f'{time.time()}'] = {"name": f"已授权用户 ==> {name}", 'username': username, 'password': password,
                                         "time": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
