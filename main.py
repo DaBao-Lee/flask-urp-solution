@@ -16,12 +16,7 @@ def notallow():
 @app.route('/', methods=['GET', 'POST'])
 def login():
 
-    try:
-        with open('./static/user.txt', 'r') as f:
-            username = f.readline().strip()
-            password = f.readline().strip()
-            print(Fore.GREEN + "读取用户信息成功..." + Fore.RESET)
-    except: username, password = '2215113116', ''
+    username, password = '2215113116', ''
     
     return render_template('index.html', username=username, password=password)
 
