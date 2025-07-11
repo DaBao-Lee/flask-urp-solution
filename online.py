@@ -49,10 +49,10 @@ def get_grades(session):
             result_dict['coursePoints'] = result_dict.get('coursePoints') + [str(row['学分'])]
             result_dict['courseGrades'] = result_dict.get('courseGrades') + [str(row['成绩'])]
 
-        result_dict['courseName'] = result_dict.get('courseName') + ['/']
-        result_dict['courseAttr'] = result_dict.get('courseAttr') +  ['/']
-        result_dict['coursePoints'] = result_dict.get('coursePoints') +  ['/']
-        result_dict['courseGrades'] = result_dict.get('courseGrades') +  ['/']
+        result_dict['courseName'] = result_dict.get('courseName') + ['-']
+        result_dict['courseAttr'] = result_dict.get('courseAttr') +  ['-']
+        result_dict['coursePoints'] = result_dict.get('coursePoints') +  ['-']
+        result_dict['courseGrades'] = result_dict.get('courseGrades') +  ['-']
 
     return name, result_dict
 

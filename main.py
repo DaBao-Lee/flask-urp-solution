@@ -101,11 +101,11 @@ def  startEval():
 if __name__ == '__main__':
     import webbrowser, threading
     url = "http://127.0.0.1:5000"
-    # url = "http://172.23.17.70:5000"
+    url = "http://172.23.17.70:5000"
     def open_browser():
         webbrowser.open(url)
 
     threading.Timer(2, open_browser).start()
-    app.run(host='127.0.0.1', port=5000)
-    # app.run(host='172.23.17.70', port=5000)
+    app.run(host='127.0.0.1', port=5000, debug=True)
+    # app.run(host='172.23.17.70', port=5000, debug=True)
     

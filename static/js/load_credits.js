@@ -8,7 +8,7 @@ function loadCredits() {
     .then(res => res.json())
     .then(data => {
         let html = `
-        <h2>🎯 绩点信息</h2>
+        <h2>📈 绩点信息</h2>
         <table>
             <thead>
                 <tr>

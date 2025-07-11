@@ -10,7 +10,6 @@
     <style>
         body {
             font-family: "Helvetica Neue", sans-serif;
-            {#background-color: #f7f7f7;#}
             background: #caf0f8;
             padding: 20px;
         }
@@ -48,8 +47,11 @@
             padding: 12px 16px;
             border-bottom: 1px solid #eaeaea;
             text-align: center;
-            font-size: 14px;
+            font-size: 15px;
             word-break: break-word;
+            max-width: 400px;
+            word-break: break-all;
+            white-space: normal;
         }
         th {
             background-color: #3498db;
@@ -58,6 +60,18 @@
         }
         tr:hover {
             background-color: #f0f8ff;
+        }
+
+        @media (max-width: 768px) {
+            th, td, tr{
+                font-size: 12px;
+            }
+
+            th, td {
+                max-width: 100px;
+                word-break: break-all;
+                white-space: normal;
+            }
         }
         .status-good {
             color: green;
@@ -103,15 +117,15 @@
         <h2 id="status"></h2>
     </div>
     
-    <h2>🎓 学生成绩一览 📖</h2>
+    <h2>🎓 学生成绩一览</h2>
     <div class="table-wrapper">
         <table>
             <thead>
                 <tr>
-                    <th>📚 课程名</th>
-                    <th>🔎 属性</th>
-                    <th>✨ 学分</th>
-                    <th>📈 成绩</th>
+                    <th>课程名</th>
+                    <th>属性</th>
+                    <th>学分</th>
+                    <th>成绩</th>
                 </tr>
             </thead>
             <tbody>
