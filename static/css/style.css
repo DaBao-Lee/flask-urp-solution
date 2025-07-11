@@ -234,7 +234,7 @@ button:hover {
 
 .w3l-hotair-form form {
     margin-top: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
 .social-icons {
@@ -297,7 +297,7 @@ p.account a:hover {
     border: 1px solid #0568C1;
 }
 .w3l-hotair-form button {
-    font-size: 18px;
+    font-size: 16px;
     color: #fff;
     width: 100%;
     background: #0568C1;
@@ -316,6 +316,14 @@ p.account a:hover {
     color: rgba(0, 0, 0, 0.553);
     cursor: pointer;
 }
+ .w3l-hotair-form .getAllowance {
+     margin-bottom: 15px;
+     background: rgba(87, 206, 82, 1);
+ }
+
+ .w3l-hotair-form .getAllowance:hover {
+     background: rgba(87, 206, 82, 1);
+ }
 
 .w3l-hotair-form .social-icon   s ul li {
     list-style: none;
@@ -465,5 +473,27 @@ p.copy-footer-29 a:hover {
 
 }
 
+ .fade-up {
+     animation: fadeUp 1.8s ease forwards;
+ }
+
+ @keyframes fadeUp {
+     0% {
+         opacity: 0;
+         transform: translateY(20px);
+     }
+     20% {
+         opacity: 1;
+         transform: translateY(0);
+     }
+     80% {
+         opacity: 1;
+         transform: translateY(-10px);
+     }
+     100% {
+         opacity: 0;
+         transform: translateY(-20px);
+     }
+ }
 /*-- //responsive design --*/
 /*-- //form styling --*/
