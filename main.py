@@ -105,8 +105,8 @@ def getEvalInfo():
 
 @app.route('/evaluation', methods=['GET', 'POST'])
 def startEval():
-    response = evaluate(session)
 
+    response = evaluate(session)
     if "评估成功！" in response.text:
         return jsonify({"status": "success"})
     else:
@@ -119,3 +119,4 @@ if __name__ == '__main__':
 
     # url = "http://172.23.17.70:5000"
     # app.run(host='172.23.17.70', port=5000, debug=True)
+    

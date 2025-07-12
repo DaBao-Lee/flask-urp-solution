@@ -10,7 +10,6 @@
         body {
             font-family: "Helvetica Neue", sans-serif;
             background: #caf0f8;
-            padding: 20px;
         }
         h2 {
             position: relative;
@@ -40,7 +39,7 @@
             background-color: #fff;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             border-radius: 8px;
-            margin: auto;
+            margin-bottom: 10px;
         }
         th, td {
             padding: 12px 16px;
@@ -88,6 +87,7 @@
         padding: 12px 24px;
         cursor: pointer;
         box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        margin-top: 10px;
         transition: transform 0.2s ease, box-shadow 0.3s ease;
     }
     .load-btn:hover {
@@ -109,14 +109,13 @@
     </style>
 </head>
 <body>
-    <div class="table-wrapper">
+    <div class="table-wrapper" id="evaluate">
         <button onclick="showEvalInfo()" class="evaluate-btn load-btn">✨ 查看评估信息</button>
         <div id="evaluate-area"></div>
         <button onclick="startEval()" class="evaluate-btn start_evaluate load-btn" style="display: none;">📈 开始评估</button>
-        <h2 id="status"></h2>
     </div>
-    
-    <h2>🎓 学生成绩一览</h2>
+
+    <h2 id="grades">🎓 学生成绩一览</h2>
     <div class="table-wrapper">
         <table>
             <thead>
