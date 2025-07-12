@@ -160,8 +160,14 @@ function showAlert(message, color="rgba(87, 206, 82, 1)") {
 
     container.appendChild(alertBox);
 
-    // 移除提示框
     setTimeout(() => {
         container.removeChild(alertBox);
     }, 2000);
 }
+
+function scrollToSection() {
+    const target = document.getElementsByClassName("target-section")[0];
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
+  }
