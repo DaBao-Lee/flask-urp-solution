@@ -15,9 +15,9 @@ def get_session(username, password):
         'Referer': login_url
     }
 
-    vchart_link = "http://192.168.16.209/validateCodeAction.do?"  # 示例路径，需根据实际页面调整
+    vchart_link = "http://192.168.16.209/validateCodeAction.do?" 
     vchart_response = session.get(vchart_link, headers=headers)
-    ocr = DdddOcr(show_ad=False, use_gpu=False)
+    ocr = DdddOcr(use_gpu=False)
     result = ocr.classification(vchart_response.content)
 
     payload = {
