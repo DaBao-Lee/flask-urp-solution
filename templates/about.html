@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://img.icons8.com/?size=100&id=XhIm44CcXKqm&format=png&color=000000">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body sticky-top py-2 text-white" data-bs-theme="dark">
+        <div class="container">
+            <a class="navbar-brand" href="">ZiJin UrpSolution</a>
+            <button class="navbar-toggler" type="button" data-bs-target="#navmenu" data-bs-toggle="collapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navmenu">
+                <ul class="navbar-nav d-flex align-items-center justify-content-center mx-5">
+                    <li class="nav-item mx-3">
+                        <a class="nav-link" href="https://github.com/DaBao-Lee" target="_blank">GitHub Page</a>
+                    </li>
+                    <li class="nav-item mx-3">
+                        <a class="nav-link" href="https://github.com/DaBao-Lee/flask-urp-solution" target="_blank">Flask Version</a>
+                    </li>
+                    <li class="nav-item mx-3">
+                        <a class="nav-link" href="https://github.com/DaBao-Lee/django_urp_solution" target="_blank">Django Version</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link show-time" href="#"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section class="bg-dark text-light p-5 p-lg-0 pt-lg-4 text-center text-sm-start">
+        <div class="container">
+            <div class="d-sm-flex align-items-center justify-content-between pb-4">
+                <div>
+                    <h1>Welcome <span class="text-warning"> The Student of ZiJin</span></h1>
+                    <p class="lead my-4">本项目基于 <span class="text-warning">Flask</span> 开发的教务系统自动化工具，提供成绩查询、绩点统计与课程评估等一站式便捷服务，提升教务操作效率与用户体验。 </p>
+                    <a class="btn btn-primary btn-lg w-100" href="/">Start</a>
+                </div>
+                <img class="img-fluid w-75 d-none d-sm-block rounded ms-5" src="./static/images/flask.webp" alt="">
+            </div>
+        </div>
+    </section>
+    <section class="bg-primary text-light text-center p-2">
+        <div class="d-md-flex justify-content-between align-items-center">
+            <div class="container">
+                <h3 class="mb-3 mb-md-0">核心功能</h3>
+            </div>
+        </div>
+    </section>
+    <section class="p-4">
+        <div class="container">
+            <div class="row text-center g-5">
+                <div class="col-md">
+                    <div class="card bg-dark text-light">
+                        <div class="card-body text-center">
+                            <div class="h1 mb-3">
+                                <i class="bi bi-laptop"></i>
+                            </div>
+                            <h3 class="card-title mb-3">成绩查询</h3>
+                            <p class="card-text">
+                                登录后自动抓取并展示所有课程成绩及详细信息
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="card bg-secondary text-light">
+                        <div class="card-body text-center">
+                            <div class="h1 mb-3">
+                                <i class="bi bi-person-square"></i>
+                            </div>
+                            <h3 class="card-title mb-3">绩点统计</h3>
+                            <p class="card-text">
+                                计算学期平均绩点、学分加权绩点、学位绩点等
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="card bg-dark text-light">
+                        <div class="card-body text-center">
+                            <div class="h1 mb-3">
+                                <i class="bi bi-people"></i>
+                            </div>
+                            <h3 class="card-title mb-3">评教助手</h3>
+                            <p class="card-text">
+                                支持查询评教任务，并一键自动完成评教流程
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <script>
+        function updateTime() {
+
+            const now = new Date();
+            const time = now.toLocaleTimeString();
+            const date = now.toLocaleDateString('zh-CN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            const weekday = now.toLocaleDateString('zh-CN', {
+                weekday: 'long'
+            });
+            const fullDisplay = `${date} ${weekday} ${time}`;
+            document.querySelector('.show-time').textContent = fullDisplay;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+</body>
+</html>

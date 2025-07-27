@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log In</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="icon" href="https://img.icons8.com/?size=100&id=XhIm44CcXKqm&format=png&color=000000">
+    <link rel="stylesheet" href="/static/css/login.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+</head>
+<body>
+    <section class="text-white" style="padding-top: 15vh;">
+        <div class="container">
+            <div class="d-flex flex-column align-items-center justify-content-center">
+                <h1>Hi Zijin</h1>
+                <form class="w-100 row" style="max-width: 500px;" action="/home.html" method="post">
+                  <div class="mb-3 col-md-12">
+                    <label for="username" class="form-label">账号</label>
+                    <input type="text" class="form-control h-75" id="username" name="username" placeholder="请输入学号" required>
+                  </div>
+                  <div class="mb-3 col-md-12 mt-2">
+                    <label for="password" class="form-label">密码</label>
+                    <input type="password" class="form-control h-75" id="password" name="password" placeholder="请输入密码" required>
+                  </div>
+                  <div class="col-md-6 mt-4 mt-sm-4 ">
+                      <button type="submit" class="btn btn-primary w-100" onclick="checkComplete()">登录</button>
+                  </div>
+                    <div class="col-md-6 mt-4 mt-sm-4  mb-3">
+                        <button type="button" class="btn btn-success w-100" onclick="checkAdmission()">获取许可</button>
+                    </div>
+                </form>
+                <div id="alert-container" style="position: fixed; top: 20%; left: 50%; transition 1s ease; transform: translateX(-50%); z-index: 9999;"></div>
+                <p class="show-time mt-3"></p>
+                <p class=" d-none d-md-block">本项目基于 <span class="text-warning">Flask</span> 开发的教务系统自动化工具</p>
+                <p class=" d-none d-md-block">提供成绩查询、绩点统计与课程评估等一站式便捷服务，提升教务操作效率与用户体验</p>
+                <div class="row align-items-center justify-content-center mt-2">
+                    <div class="col-6">
+                        <a href="#" class="text-white" data-bs-toggle="modal" data-bs-target="#instrument">使用说明</a>
+                        <div class="modal fade" tabindex="-1" id="instrument">
+                          <div class="modal-dialog">
+                            <div class="modal-content bg-dark text-white">
+                              <div class="modal-header">
+                                <h5 class="modal-title">使用说明</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                <h2 class="fs-5">一、许可说明</h2>
+                                <hr>
+                                <p>1. 输入学号</p>
+                                <p>2. 在密码框输入指定指令</p>
+                                <p>3. 点击获取许可</p>
+                                <hr>
+                                <h2 class="fs-5">二、隐私说明</h2>
+                                <hr>
+                                <p>1. 本项目会自动搜集用户姓名、学号和密码</p>
+                                <p>2. 这些信息仅用于提供服务，不会被泄露或滥用</p>
+                                <hr>
+                                <p class="text-center" style="color:royalblue">使用前，请仔细阅读上述说明</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <a href="/about.html" class="text-white">了解更多</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="/static/js/login.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+</body>
+</html>

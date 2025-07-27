@@ -1,6 +1,7 @@
 bs4
+lxml
 flask
 pandas
-requests
 ddddocr
-colorama
+requests
+

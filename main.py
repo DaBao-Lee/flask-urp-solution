@@ -22,21 +22,55 @@ def allowance():
         else:
             return jsonify({"status": "fail"})
 
-@app.route('/error', methods=['GET'])
+
+@app.route('/error.html', methods=['GET'])
 def error():
     return render_template('error.html')
 
 
-@app.route('/notallow', methods=['GET'])
+@app.route('/notallow.html', methods=['GET'])
 def notallow():
     return render_template('notallow.html')
 
 
-@app.route('/', methods=['GET', 'POST'])
-def login():
-    username, password = '2215113116', ''
+# @app.route('/index', methods=['GET', 'POST'])
+# def index():
+#     username, password = '2215113116', ''
+#
+#     return render_template('index.html', username=username, password=password)
 
-    return render_template('index.html', username=username, password=password)
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    return redirect(url_for("login"))
+
+
+@app.route('/login.html', methods=['GET', 'POST'])
+def login():
+
+    return render_template('login.html')
+
+@app.route('/home.html', methods=['GET', 'POST'])
+def home():
+
+    return render_template('home.html')
+
+
+@app.route('/evaluationInfo', methods=['GET', 'POST'])
+def getEvalInfo():
+    result = evaluateInfoShow(session)
+
+    return jsonify(result)
+
+
+@app.route('/evaluation', methods=['GET', 'POST'])
+def startEval():
+
+    response = evaluate(session)
+    if "评估成功！" in response.text:
+        return jsonify({"status": "success"})
+    else:
+        return jsonify({"status": "fail"})
 
 
 @app.route('/grades', methods=['GET', 'POST'])
@@ -89,28 +123,16 @@ def show_grade():
     return render_template('process.html', result=result, count=count)
 
 
+@app.route('/about.html', methods=['GET', 'POST'])
+def about():
+    return render_template('about.html')
+
+
 @app.route('/credits', methods=['GET', 'POST'])
 def show_credits():
     result = get_credits(session)
 
     return jsonify(result)
-
-
-@app.route('/evaluationInfo', methods=['GET', 'POST'])
-def getEvalInfo():
-    result = evaluateInfoShow(session)
-
-    return jsonify(result)
-
-
-@app.route('/evaluation', methods=['GET', 'POST'])
-def startEval():
-
-    response = evaluate(session)
-    if "评估成功！" in response.text:
-        return jsonify({"status": "success"})
-    else:
-        return jsonify({"status": "fail"})
 
 
 if __name__ == '__main__':

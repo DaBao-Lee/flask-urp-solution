@@ -114,57 +114,6 @@ function startEval(){
     });
 }
 
-function checkAdmission(){
-    const studentId = document.getElementsByName("username")[0];
-    const password = document.getElementsByName("password")[0];
-
-    if (!studentId.value || !password.value) {
-        showAlert("Please Fill in Your Complete Username and Key！", color="rgba(255, 0, 0, 1)");
-        return;
-    }
-
-    fetch('/allowance', {
-        method: 'post',
-        body: JSON.stringify({
-            username: studentId.value,
-            password: password.value
-        }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then(res => res.json())
-      .then(data => {
-          if (data.status === 'success') {
-              showAlert("You Get the Allowance...");
-              password.value = "";
-          } else {
-              showAlert("You Don't Get the Allowance...", color="rgba(255, 0, 0, 1)");
-          }
-      });
-}
-
-function showAlert(message, color="rgba(87, 206, 82, 1)") {
-    const container = document.getElementById("alert-container");
-    const alertBox = document.createElement("div");
-
-    alertBox.className = "alert alert-warning rounded fade-up";
-    if (message === "You Get the Allowance..." || message === "登录成功！"){
-        alertBox.innerHTML = `<i style="margin-right: 5px" class="fa fa-check-circle"></i>${message}`; // Bootstrap Icons
-    } else {
-        alertBox.innerHTML = `<i style="margin-right: 5px" class="fa fa-times-circle"></i>${message}`; // Bootstrap Icons
-    }
-    alertBox.style.background = color;
-    alertBox.style.color = "#fff";
-    alertBox.style.border = "none";
-    alertBox.style.fontWeight = "bold";
-
-    container.appendChild(alertBox);
-
-    setTimeout(() => {
-        container.removeChild(alertBox);
-    }, 2000);
-}
-
 function scrollToSection() {
     const target = document.getElementsByClassName("target-section")[0];
     if (target) {
