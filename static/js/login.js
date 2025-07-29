@@ -48,7 +48,6 @@ function checkAdmission(){
       .then(data => {
           if (data.status === 'success') {
               showAlert("已授权用户");
-              password.value = "";
           } else {
               showAlert("未授权用户", color="rgba(255, 0, 0, 1)");
           }

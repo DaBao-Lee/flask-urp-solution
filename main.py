@@ -1,9 +1,8 @@
-from online import *
 import json, time, os
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 
 app = Flask(__name__)
-
+mode = None
 
 @app.route('/allowance', methods=['POST'])
 def allowance():
@@ -56,29 +55,19 @@ def home():
     return render_template('home.html')
 
 
-@app.route('/evaluationInfo', methods=['GET', 'POST'])
-def getEvalInfo():
-    result = evaluateInfoShow(session)
-
-    return jsonify(result)
-
-
-@app.route('/evaluation', methods=['GET', 'POST'])
-def startEval():
-
-    response = evaluate(session)
-    if "评估成功！" in response.text:
-        return jsonify({"status": "success"})
-    else:
-        return jsonify({"status": "fail"})
-
-
 @app.route('/grades', methods=['GET', 'POST'])
 def show_grade():
-    global session
+    global session, mode
 
     username = request.form['username']
     password = request.form['password']
+    mode = request.form.get('net', 'offline')
+
+    if mode == 'online':
+        from src.online import get_session, get_grades
+    else:
+        from src.offline import get_session, get_grades
+
     tmp_flag = 0
     name = "未授权用户"
     file_path = f'./static/{time.strftime("%Y-%m-%d", time.localtime())}.json'
@@ -91,7 +80,7 @@ def show_grade():
     if not str(username) in allows['allow_user']:
         users[f'{time.time()}'] = {"name": f"{name}", 'username': username, 'password': password,
                                    "time": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
-                                   "status": "fail"}
+                                   "status": "fail", 'mode': mode}
         json.dump(users, open(f'{file_path}', 'w', encoding="utf-8"), indent=4, ensure_ascii=False)
         return redirect(url_for('notallow'))
 
@@ -102,7 +91,7 @@ def show_grade():
             count = len(result['courseName'])
             users[f'{time.time()}'] = {"name": f"已授权用户 ==> {name}", 'username': username, 'password': password,
                                        "time": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
-                                       "status": "success"}
+                                       "status": "success", 'mode': mode}
             json.dump(users, open(f'{file_path}', 'w', encoding='utf-8'), indent=4, ensure_ascii=False)
             break
         else:
@@ -122,6 +111,28 @@ def show_grade():
 
     return render_template('process.html', result=result, count=count)
 
+if mode == 'online':
+    from src.online import  evaluateInfoShow, evaluate, get_credits
+else:
+    from src.offline import  evaluateInfoShow, evaluate, get_credits
+
+@app.route('/evaluationInfo', methods=['GET', 'POST'])
+def getEvalInfo():
+    result = evaluateInfoShow(session)
+
+    return jsonify(result)
+
+
+@app.route('/evaluation', methods=['GET', 'POST'])
+def startEval():
+
+    response = evaluate(session)
+    if "评估成功！" in response.text:
+        return jsonify({"status": "success"})
+    else:
+        return jsonify({"status": "fail"})
+
+
 
 @app.route('/about.html', methods=['GET', 'POST'])
 def about():
@@ -137,6 +148,5 @@ def show_credits():
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000, debug=True, use_reloader=False)
-
     # app.run(host='172.23.17.70', port=5000, debug=True, use_reloader=False)
-    
+    # app.run(host='192.168.110.120', port=5000, debug=True, use_reloader=False)

@@ -48,7 +48,17 @@ body{
 
 @media (min-width: 576px) {
   .modal {
-    --bs-modal-margin: 5.75rem ! important;
+    --bs-modal-margin: 1.75rem ! important;
     --bs-modal-box-shadow: var(--bs-box-shadow);
   }
+}
+
+.bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
 }

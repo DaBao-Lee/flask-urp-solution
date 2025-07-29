@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ZiJin UrpSolution</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="icon" href="https://img.icons8.com/?size=100&id=XhIm44CcXKqm&format=png&color=000000">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/home.css">
+</head>
+<body>
+    <div class="d-flex">
+        <aside id="sidebar">
+            <div class="sidebar-logo">
+                <a href="#">UrpSolution</a>
+            </div>
+            <ul class="sidebar-nav p-0">
+                <li class="sidebar-header">Tools & Components</li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-house-fill"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-list-task"></i>
+                        <span>Task</span>
+                    </a>
+                </li>
+                <li class="sidebar-header">Pages</li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse" data-bs-target="#auth" aria-expanded="true" aria-controls="auth">
+                        <i class="bi bi-check-circle-fill"></i>
+                        <span>Auth</span>
+                    </a>
+                    <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link">Login</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link">Register</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-bell-fill"></i>
+                        <span>Notification</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-gear-fill"></i>
+                        <span>Setting</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <p>© 2023 Zijin</p>
+                <p>Powered by Flask</p>
+            </div>
+        </aside>
+            <div class="main">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
+                <button class="toggler-btn" type="button">
+                    <i class="bi bi-list"></i>
+                </button>
+            </nav>
+            <main class="p-3">
+                <div class="container-fluid">
+                    <div class="mb-3 text-center">
+                        <h1 class="display-4">Welcome to UrpSolution</h1>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="/static/js/home.js"></script>
+    <script src="/static/js/load_credits.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+</body>
+</html>
