@@ -105,11 +105,8 @@ def show_grade():
 
                 return redirect(url_for('error'))
 
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-
     return render_template('process.html', result=result, count=count)
+
 
 if mode == 'online':
     from src.online import  evaluateInfoShow, evaluate, get_credits
@@ -147,6 +144,6 @@ def show_credits():
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5000, debug=True, use_reloader=False)
+    # app.run(host='127.0.0.1', port=5000, debug=True, use_reloader=False)
     # app.run(host='172.23.17.70', port=5000, debug=True, use_reloader=False)
-    # app.run(host='192.168.110.120', port=5000, debug=True, use_reloader=False)
+    app.run(host='192.168.110.120', port=5000, debug=True, use_reloader=False)

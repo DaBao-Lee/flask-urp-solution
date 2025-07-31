@@ -42,6 +42,7 @@ def get_session(username, password):
 
 
 def get_grades(session):
+
     info = session.get("https://223.112.21.198:6443/7b68f983/menu/top.jsp#", verify=False)
     name = read_html(info.text)[0].iloc[0, 0].split(")")[0].split("(")[-1]
 
