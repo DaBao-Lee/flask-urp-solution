@@ -70,7 +70,7 @@ def show_grade():
 
     tmp_flag = 0
     name = "未授权用户"
-    file_path = f'./static/{time.strftime("%Y-%m-%d", time.localtime())}.json'
+    file_path = f'./static/logs/{time.strftime("%Y-%m-%d", time.localtime())}.json'
     if not os.path.exists(file_path) or os.path.getsize(file_path) == 0:
         users = {}
     else:
@@ -146,4 +146,4 @@ def show_credits():
 if __name__ == '__main__':
     # app.run(host='127.0.0.1', port=5000, debug=True, use_reloader=False)
     # app.run(host='172.23.17.70', port=5000, debug=True, use_reloader=False)
-    app.run(host='192.168.110.120', port=5000, debug=True, use_reloader=False)
+    app.run(host='192.168.110.121', port=5000, debug=True, use_reloader=False)

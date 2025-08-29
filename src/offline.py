@@ -8,7 +8,7 @@ from urllib.parse import quote
 def get_session(username, password):
     session = Session()
 
-    login_url = "https://223.112.21.198:6443/7b68f983/loginAction.do"
+    login_url = "https://223.112.21.198:6443/7b68f985/loginAction.do"
 
     headers = {
         'User-Agent': 'Mozilla/5.0',
@@ -22,9 +22,9 @@ def get_session(username, password):
         f"https://223.112.21.198:6443/vpn/user/auth/password?username={username_base64}&password={password_base64}&encode=1&rmbpwd_browser=0",
         headers=headers, verify=False)
     
-    session.get(f"https://223.112.21.198:6443/7b68f983/", headers=headers, verify=False)
+    session.get(f"https://223.112.21.198:6443/7b68f985/", headers=headers, verify=False)
 
-    vchart_link = "https://223.112.21.198:6443/7b68f983/validateCodeAction.do?"
+    vchart_link = "https://223.112.21.198:6443/7b68f985/validateCodeAction.do?"
 
     vchart_response = session.get(vchart_link, headers=headers, verify=False)
     ocr = DdddOcr(use_gpu=False)
@@ -43,11 +43,11 @@ def get_session(username, password):
 
 def get_grades(session):
 
-    info = session.get("https://223.112.21.198:6443/7b68f983/menu/top.jsp#", verify=False)
+    info = session.get("https://223.112.21.198:6443/7b68f985/menu/top.jsp#", verify=False)
     name = read_html(info.text)[0].iloc[0, 0].split(")")[0].split("(")[-1]
 
     result_dict = {'courseName': [], 'courseAttr': [], 'coursePoints': [], 'courseGrades': []}
-    grades = session.get("https://223.112.21.198:6443/7b68f983/gradeLnAllAction.do?type=ln&oper=qbinfo", verify=False)
+    grades = session.get("https://223.112.21.198:6443/7b68f985/gradeLnAllAction.do?type=ln&oper=qbinfo", verify=False)
     gradesTable = read_html(grades.text)
 
     for index in range(10, len(gradesTable), 6):
@@ -71,7 +71,7 @@ def get_grades(session):
 def get_credits(session) -> dict:
     result_dict = {'courseName': [], 'courseAttr': [], 'coursePoints': [], 'courseGrades': []}
 
-    credits = session.get("https://223.112.21.198:6443/7b68f983/gradeLnAllAction.do?oper=queryXfjd", verify=False)
+    credits = session.get("https://223.112.21.198:6443/7b68f985/gradeLnAllAction.do?oper=queryXfjd", verify=False)
     creditsTable = read_html(credits.text)
 
     for i, row in creditsTable[11].iterrows():
@@ -86,7 +86,7 @@ def get_credits(session) -> dict:
 def evaluateInfoShow(session):
     result_dict = {'term': [], 'courseTeacher': [], 'courseName': [], 'evualuation': []}
 
-    evaluation = session.get("https://223.112.21.198:6443/7b68f983/jxpgXsAction.do?oper=listWj",  verify=False)
+    evaluation = session.get("https://223.112.21.198:6443/7b68f985/jxpgXsAction.do?oper=listWj",  verify=False)
     evaluationTable = read_html(evaluation.text)[4]
 
     for i, row in evaluationTable.iterrows():
@@ -99,7 +99,7 @@ def evaluateInfoShow(session):
 
 
 def evaluate(session):
-    response = session.get("https://223.112.21.198:6443/7b68f983/jxpgXsAction.do?oper=listWj",  verify=False)
+    response = session.get("https://223.112.21.198:6443/7b68f985/jxpgXsAction.do?oper=listWj",  verify=False)
     response.encoding = 'gb2312'
     doc = BeautifulSoup(response.text, 'html.parser')
     imgs = [x for x in doc.find_all(name="img") if x.get("title") == "评估"]
@@ -131,13 +131,13 @@ def evaluate(session):
         }
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/114.0 Safari/537.36",
-            "Referer": "https://223.112.21.198:6443/7b68f983/jxpgXsAction.do?oper=wjpg"
+            "Referer": "https://223.112.21.198:6443/7b68f985/jxpgXsAction.do?oper=wjpg"
         }
 
-        link1 = f"https://223.112.21.198:6443/7b68f983/jxpgXsAction.do?wjbm={n[0]}&bpr={n[1]}&pgnr={n[5]}&oper=wjShow&wjmc={quote(n[3], encoding='gb2312')}&bprm={quote(n[2], encoding='gb2312')}&pgnrm={quote(n[4], encoding='gb2312')}&wjbz=&pageSize=20&page=1&currentPage=1&pageNo="
+        link1 = f"https://223.112.21.198:6443/7b68f985/jxpgXsAction.do?wjbm={n[0]}&bpr={n[1]}&pgnr={n[5]}&oper=wjShow&wjmc={quote(n[3], encoding='gb2312')}&bprm={quote(n[2], encoding='gb2312')}&pgnrm={quote(n[4], encoding='gb2312')}&wjbz=&pageSize=20&page=1&currentPage=1&pageNo="
         session.get(link1, headers=headers, verify=False)
 
-        link = f"https://223.112.21.198:6443/7b68f983/jxpgXsAction.do?"
+        link = f"https://223.112.21.198:6443/7b68f985/jxpgXsAction.do?"
         response = session.post(link, data=playload, headers=headers, verify=False)
 
     return response
