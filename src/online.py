@@ -8,14 +8,14 @@ from urllib.parse import quote
 def get_session(username, password):
     session = Session()
 
-    login_url = "http://192.168.16.209/loginAction.do"
+    login_url = "http://192.168.16.207/loginAction.do"
 
     headers = {
         'User-Agent': 'Mozilla/5.0',
         'Referer': login_url
     }
 
-    vchart_link = "http://192.168.16.209/validateCodeAction.do?" 
+    vchart_link = "http://192.168.16.207/validateCodeAction.do?" 
     vchart_response = session.get(vchart_link, headers=headers)
     ocr = DdddOcr(use_gpu=False)
     result = ocr.classification(vchart_response.content)
@@ -32,11 +32,11 @@ def get_session(username, password):
 
 
 def get_grades(session):
-    info = session.get("http://192.168.16.209/menu/top.jsp#")
+    info = session.get("http://192.168.16.207/menu/top.jsp#")
     name = read_html(info.text)[0].iloc[0, 0].split(")")[0].split("(")[-1]
 
     result_dict = {'courseName': [], 'courseAttr': [], 'coursePoints': [], 'courseGrades': []}
-    grades = session.get("http://192.168.16.209/gradeLnAllAction.do?type=ln&oper=qbinfo")
+    grades = session.get("http://192.168.16.207/gradeLnAllAction.do?type=ln&oper=qbinfo")
     gradesTable = read_html(grades.text)
 
     for index in range(10, len(gradesTable), 6):
@@ -60,7 +60,7 @@ def get_grades(session):
 def get_credits(session) -> dict:
     result_dict = {'courseName': [], 'courseAttr': [], 'coursePoints': [], 'courseGrades': []}
 
-    credits = session.get("http://192.168.16.209/gradeLnAllAction.do?oper=queryXfjd")
+    credits = session.get("http://192.168.16.207/gradeLnAllAction.do?oper=queryXfjd")
     creditsTable = read_html(credits.text)
 
     for i, row in creditsTable[11].iterrows():
@@ -75,7 +75,7 @@ def get_credits(session) -> dict:
 def evaluateInfoShow(session):
     result_dict = {'term': [], 'courseTeacher': [], 'courseName': [], 'evualuation': []}
 
-    evaluation = session.get("http://192.168.16.209/jxpgXsAction.do?oper=listWj")
+    evaluation = session.get("http://192.168.16.207/jxpgXsAction.do?oper=listWj")
     evaluationTable = read_html(evaluation.text)[4]
 
     for i, row in evaluationTable.iterrows():
@@ -88,7 +88,7 @@ def evaluateInfoShow(session):
 
 
 def evaluate(session):
-    response = session.get("http://192.168.16.209/jxpgXsAction.do?oper=listWj")
+    response = session.get("http://192.168.16.207/jxpgXsAction.do?oper=listWj")
     response.encoding = 'gb2312'
     doc = BeautifulSoup(response.text, 'html.parser')
     imgs = [x for x in doc.find_all(name="img") if x.get("title") == "评估"]
@@ -120,13 +120,13 @@ def evaluate(session):
         }
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/114.0 Safari/537.36",
-            "Referer": "http://192.168.16.209/jxpgXsAction.do?oper=wjpg"
+            "Referer": "http://192.168.16.207/jxpgXsAction.do?oper=wjpg"
         }
 
-        link1 = f"http://192.168.16.209/jxpgXsAction.do?wjbm={n[0]}&bpr={n[1]}&pgnr={n[5]}&oper=wjShow&wjmc={quote(n[3], encoding='gb2312')}&bprm={quote(n[2], encoding='gb2312')}&pgnrm={quote(n[4], encoding='gb2312')}&wjbz=&pageSize=20&page=1&currentPage=1&pageNo="
+        link1 = f"http://192.168.16.207/jxpgXsAction.do?wjbm={n[0]}&bpr={n[1]}&pgnr={n[5]}&oper=wjShow&wjmc={quote(n[3], encoding='gb2312')}&bprm={quote(n[2], encoding='gb2312')}&pgnrm={quote(n[4], encoding='gb2312')}&wjbz=&pageSize=20&page=1&currentPage=1&pageNo="
         session.get(link1, headers=headers)
 
-        link = f"http://192.168.16.209/jxpgXsAction.do?"
+        link = f"http://192.168.16.207/jxpgXsAction.do?"
         response = session.post(link, data=playload, headers=headers)
 
     return response
