@@ -64,6 +64,7 @@ def show_grade():
     mode = request.form.get('net', 'offline')
 
     if mode == 'online':
+        print("online")
         from src.online import get_session, get_grades
     else:
         from src.offline import get_session, get_grades
@@ -108,13 +109,15 @@ def show_grade():
     return render_template('process.html', result=result, count=count)
 
 
-if mode == 'online':
-    from src.online import  evaluateInfoShow, evaluate, get_credits
-else:
-    from src.offline import  evaluateInfoShow, evaluate, get_credits
 
 @app.route('/evaluationInfo', methods=['GET', 'POST'])
 def getEvalInfo():
+
+    if mode == 'online':
+        from src.online import evaluateInfoShow, evaluate, get_credits
+    else:
+        from src.offline import evaluateInfoShow, evaluate, get_credits
+
     result = evaluateInfoShow(session)
 
     return jsonify(result)
@@ -122,6 +125,11 @@ def getEvalInfo():
 
 @app.route('/evaluation', methods=['GET', 'POST'])
 def startEval():
+
+    if mode == 'online':
+        from src.online import evaluateInfoShow, evaluate, get_credits
+    else:
+        from src.offline import evaluateInfoShow, evaluate, get_credits
 
     response = evaluate(session)
     if "评估成功！" in response.text:
@@ -138,6 +146,12 @@ def about():
 
 @app.route('/credits', methods=['GET', 'POST'])
 def show_credits():
+
+    if mode == 'online':
+        from src.online import evaluateInfoShow, evaluate, get_credits
+    else:
+        from src.offline import evaluateInfoShow, evaluate, get_credits
+
     result = get_credits(session)
 
     return jsonify(result)
