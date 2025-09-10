@@ -3,7 +3,7 @@ import platform
 import threading
 
 # 设置你的子网地址，比如 192.168.1
-subnet = "192.168.110"
+subnet = "172.22.92"
 # 扫描范围
 start = 1
 end = 254
