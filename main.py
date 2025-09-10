@@ -1,8 +1,13 @@
-import json, time, os
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+import json, time, os, threading
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session as flask_session
 
 app = Flask(__name__)
-mode = None
+app.secret_key = "a_random_secret_key_please_change"
+
+# 全局存放 requests.Session 对象，key=用户名
+user_sessions = {}
+lock = threading.Lock()  # 写文件时加锁，防止并发问题
+
 
 @app.route('/allowance', methods=['POST'])
 def allowance():
@@ -32,13 +37,6 @@ def notallow():
     return render_template('notallow.html')
 
 
-# @app.route('/index', methods=['GET', 'POST'])
-# def index():
-#     username, password = '2215113116', ''
-#
-#     return render_template('index.html', username=username, password=password)
-
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
     return redirect(url_for("login"))
@@ -46,25 +44,24 @@ def index():
 
 @app.route('/login.html', methods=['GET', 'POST'])
 def login():
-
     return render_template('login.html')
+
 
 @app.route('/home.html', methods=['GET', 'POST'])
 def home():
-
     return render_template('home.html')
 
 
 @app.route('/grades', methods=['GET', 'POST'])
 def show_grade():
-    global session, mode
-
     username = request.form['username']
     password = request.form['password']
     mode = request.form.get('net', 'offline')
 
+    flask_session['username'] = username
+    flask_session['mode'] = mode
+
     if mode == 'online':
-        print("online")
         from src.online import get_session, get_grades
     else:
         from src.offline import get_session, get_grades
@@ -82,61 +79,71 @@ def show_grade():
         users[f'{time.time()}'] = {"name": f"{name}", 'username': username, 'password': password,
                                    "time": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
                                    "status": "fail", 'mode': mode}
-        json.dump(users, open(f'{file_path}', 'w', encoding="utf-8"), indent=4, ensure_ascii=False)
+        with lock:
+            json.dump(users, open(f'{file_path}', 'w', encoding="utf-8"), indent=4, ensure_ascii=False)
         return redirect(url_for('notallow'))
 
-    while True:
-        response, session = get_session(username, password)
+    for _ in range(10):
+        response, user_session = get_session(username, password)
         if '学分制综合教务' in response.text:
-            name, result = get_grades(session)
+            name, result = get_grades(user_session)
             count = len(result['courseName'])
             users[f'{time.time()}'] = {"name": f"已授权用户 ==> {name}", 'username': username, 'password': password,
                                        "time": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
                                        "status": "success", 'mode': mode}
-            json.dump(users, open(f'{file_path}', 'w', encoding='utf-8'), indent=4, ensure_ascii=False)
-            break
-        else:
-            tmp_flag += 1
-            if tmp_flag == 10:
-                name = "密码错误"
-                users[f'{time.time()}'] = {"name": f"已授权用户 ==> {name}", 'username': username, 'password': password,
-                                           "time": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
-                                           "status": "fail"}
+            with lock:
                 json.dump(users, open(f'{file_path}', 'w', encoding='utf-8'), indent=4, ensure_ascii=False)
 
-                return redirect(url_for('error'))
+            # 保存到全局字典，供后续接口使用
+            user_sessions[username] = user_session
+            flask_session['name'] = name
+            flask_session['result'] = result
+            return render_template('process.html', result=result, count=count)
+        else:
+            tmp_flag += 1
 
-    return render_template('process.html', result=result, count=count)
-
+    name = "密码错误"
+    users[f'{time.time()}'] = {"name": f"已授权用户 ==> {name}", 'username': username, 'password': password,
+                               "time": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
+                               "status": "fail"}
+    with lock:
+        json.dump(users, open(f'{file_path}', 'w', encoding='utf-8'), indent=4, ensure_ascii=False)
+    return redirect(url_for('error'))
 
 
 @app.route('/evaluationInfo', methods=['GET', 'POST'])
 def getEvalInfo():
+    username = flask_session.get('username')
+    mode = flask_session.get('mode', 'offline')
+    if not username or username not in user_sessions:
+        return jsonify({"error": "未登录"}), 403
 
     if mode == 'online':
-        from src.online import evaluateInfoShow, evaluate, get_credits
+        from src.online import evaluateInfoShow
     else:
-        from src.offline import evaluateInfoShow, evaluate, get_credits
+        from src.offline import evaluateInfoShow
 
-    result = evaluateInfoShow(session)
-
+    result = evaluateInfoShow(user_sessions[username])
     return jsonify(result)
 
 
 @app.route('/evaluation', methods=['GET', 'POST'])
 def startEval():
+    username = flask_session.get('username')
+    mode = flask_session.get('mode', 'offline')
+    if not username or username not in user_sessions:
+        return jsonify({"error": "未登录"}), 403
 
     if mode == 'online':
-        from src.online import evaluateInfoShow, evaluate, get_credits
+        from src.online import evaluate
     else:
-        from src.offline import evaluateInfoShow, evaluate, get_credits
+        from src.offline import evaluate
 
-    response = evaluate(session)
+    response = evaluate(user_sessions[username])
     if "评估成功！" in response.text:
         return jsonify({"status": "success"})
     else:
         return jsonify({"status": "fail"})
-
 
 
 @app.route('/about.html', methods=['GET', 'POST'])
@@ -146,18 +153,19 @@ def about():
 
 @app.route('/credits', methods=['GET', 'POST'])
 def show_credits():
+    username = flask_session.get('username')
+    mode = flask_session.get('mode', 'offline')
+    if not username or username not in user_sessions:
+        return jsonify({"error": "未登录"}), 403
 
     if mode == 'online':
-        from src.online import evaluateInfoShow, evaluate, get_credits
+        from src.online import get_credits
     else:
-        from src.offline import evaluateInfoShow, evaluate, get_credits
+        from src.offline import get_credits
 
-    result = get_credits(session)
-
+    result = get_credits(user_sessions[username])
     return jsonify(result)
 
 
 if __name__ == '__main__':
-    # app.run(host='127.0.0.1', port=5000, debug=True, use_reloader=False)
-    # app.run(host='172.23.17.70', port=5000, debug=True, use_reloader=False)
-    app.run(host='192.168.110.121', port=5000, debug=True, use_reloader=False)
+    app.run(host='172.23.29.244', port=5888, debug=True, use_reloader=False)
