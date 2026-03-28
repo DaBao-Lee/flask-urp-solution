@@ -1,3 +1,4 @@
+from io import StringIO 
 import base64
 from ddddocr import DdddOcr
 from pandas import read_html
@@ -16,7 +17,7 @@ def get_session(username, password):
     }
 
     username_base64 = base64.b64encode("2215113116".encode()).decode()
-    password_base64 = base64.b64encode("Ldb20040716@".encode()).decode()
+    password_base64 = base64.b64encode("Ldb20040716?".encode()).decode()
 
     session.get(
         f"https://223.112.21.198:6443/vpn/user/auth/password?username={username_base64}&password={password_base64}&encode=1&rmbpwd_browser=0",
@@ -44,11 +45,11 @@ def get_session(username, password):
 def get_grades(session):
 
     info = session.get("https://223.112.21.198:6443/7b68f985/menu/top.jsp#", verify=False)
-    name = read_html(info.text)[0].iloc[0, 0].split(")")[0].split("(")[-1]
+    name = read_html(StringIO(info.text))[0].iloc[0, 0].split(")")[0].split("(")[-1]
 
     result_dict = {'courseName': [], 'courseAttr': [], 'coursePoints': [], 'courseGrades': []}
     grades = session.get("https://223.112.21.198:6443/7b68f985/gradeLnAllAction.do?type=ln&oper=qbinfo", verify=False)
-    gradesTable = read_html(grades.text)
+    gradesTable = read_html(StringIO(grades.text))
 
     for index in range(10, len(gradesTable), 6):
         tmp_frame = gradesTable[index].iloc[:, [2, 4, 5, 7]]
@@ -72,7 +73,7 @@ def get_credits(session) -> dict:
     result_dict = {'courseName': [], 'courseAttr': [], 'coursePoints': [], 'courseGrades': []}
 
     credits = session.get("https://223.112.21.198:6443/7b68f985/gradeLnAllAction.do?oper=queryXfjd", verify=False)
-    creditsTable = read_html(credits.text)
+    creditsTable = read_html(StringIO(credits.text))
 
     for i, row in creditsTable[11].iterrows():
         result_dict['courseName'] = result_dict.get('courseName') + [str(row['学年学期'])]
@@ -87,7 +88,7 @@ def evaluateInfoShow(session):
     result_dict = {'term': [], 'courseTeacher': [], 'courseName': [], 'evualuation': []}
 
     evaluation = session.get("https://223.112.21.198:6443/7b68f985/jxpgXsAction.do?oper=listWj",  verify=False)
-    evaluationTable = read_html(evaluation.text)[4]
+    evaluationTable = read_html(StringIO(evaluation.text))[4]
 
     for i, row in evaluationTable.iterrows():
         result_dict['term'] = result_dict.get('term') + [str(row['问卷名称'])]
@@ -141,3 +142,8 @@ def evaluate(session):
         response = session.post(link, data=playload, headers=headers, verify=False)
 
     return response
+
+if __name__ == '__main__':
+    res, session = get_session("2215113116", "ldb2004")
+    get_credits(session)
+   

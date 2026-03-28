@@ -1,3 +1,4 @@
+from io import StringIO
 from ddddocr import DdddOcr
 from pandas import read_html
 from requests import Session
@@ -33,11 +34,11 @@ def get_session(username, password):
 
 def get_grades(session):
     info = session.get("http://192.168.16.207/menu/top.jsp#")
-    name = read_html(info.text)[0].iloc[0, 0].split(")")[0].split("(")[-1]
+    name = read_html(StringIO(info.text))[0].iloc[0, 0].split(")")[0].split("(")[-1]
 
     result_dict = {'courseName': [], 'courseAttr': [], 'coursePoints': [], 'courseGrades': []}
     grades = session.get("http://192.168.16.207/gradeLnAllAction.do?type=ln&oper=qbinfo")
-    gradesTable = read_html(grades.text)
+    gradesTable = read_html(StringIO(grades.text))
 
     for index in range(10, len(gradesTable), 6):
         tmp_frame = gradesTable[index].iloc[:, [2, 4, 5, 7]]
@@ -61,7 +62,7 @@ def get_credits(session) -> dict:
     result_dict = {'courseName': [], 'courseAttr': [], 'coursePoints': [], 'courseGrades': []}
 
     credits = session.get("http://192.168.16.207/gradeLnAllAction.do?oper=queryXfjd")
-    creditsTable = read_html(credits.text)
+    creditsTable = read_html(StringIO(credits.text))
 
     for i, row in creditsTable[11].iterrows():
         result_dict['courseName'] = result_dict.get('courseName') + [str(row['学年学期'])]
@@ -76,7 +77,7 @@ def evaluateInfoShow(session):
     result_dict = {'term': [], 'courseTeacher': [], 'courseName': [], 'evualuation': []}
 
     evaluation = session.get("http://192.168.16.207/jxpgXsAction.do?oper=listWj")
-    evaluationTable = read_html(evaluation.text)[4]
+    evaluationTable = read_html(StringIO(evaluation.text))[4]
 
     for i, row in evaluationTable.iterrows():
         result_dict['term'] = result_dict.get('term') + [str(row['问卷名称'])]
